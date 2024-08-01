@@ -3,6 +3,6 @@ package com.example.model;
 public class Customer 
 {
 	private Integer customer_id;
-	private Integer customer_name;
+	private Integer customern;
 	
 }
