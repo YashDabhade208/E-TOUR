@@ -8,10 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
+
 @Table(name="Category_Master")
 public class Category
 {
-	
 	
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
