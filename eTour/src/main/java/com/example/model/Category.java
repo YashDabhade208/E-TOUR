@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 @Table(name="Category_Master")
 public class Category
 {
+	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable=false,length=5)
 	@Id
