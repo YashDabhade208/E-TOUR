@@ -1,54 +1,85 @@
 package com.example.model;
 
+import org.antlr.v4.runtime.misc.NotNull;
+
 import jakarta.persistence.*;
 
 @Entity
 public class Customer
 {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer customer_id;
 	
-	@Column(nullable=false,length=18)
-	private String customer_name;
-	@Column(nullable=false)
-	private Integer customer_mobileno;
-	private Integer customer_alternatemobileno;
-	@Column(nullable=false)
+	private String customer_firstname;
+	private String customer_lastname;
+	private String customer_gender;
+	private String customer_dob;
+	private String customer_username;
+	private String customer_password;
+	
+	
+	private Long customer_mobileno;
+	//private Long customer_alternatemobileno;
+	
 	private String customer_emailid;
-	@Column(nullable=false,length=255)
+	
 	private String customer_address;
-	@Column(nullable=false)
+	
 	private String customer_city;
-	@Column(nullable=false)
+	
 	private String customer_state;
-	@Column(nullable=false)
+	
 	private Integer customer_pincode;
-	@Column(nullable=false)
-	private String customer_country;
+	
+	
 	public Integer getCustomer_id() {
 		return customer_id;
 	}
 	public void setCustomer_id(Integer customer_id) {
 		this.customer_id = customer_id;
 	}
-	public String getCustomer_name() {
-		return customer_name;
+	public String getCustomer_firstname() {
+		return customer_firstname;
 	}
-	
-	public void setCustomer_name(String customer_name) {
-		this.customer_name = customer_name;
+	public void setCustomer_firstname(String customer_firstname) {
+		this.customer_firstname = customer_firstname;
 	}
-	public Integer getCustomer_mobileno() {
+	public String getCustomer_lastname() {
+		return customer_lastname;
+	}
+	public void setCustomer_lastname(String customer_lastname) {
+		this.customer_lastname = customer_lastname;
+	}
+	public String getCustomer_gender() {
+		return customer_gender;
+	}
+	public void setCustomer_gender(String customer_gender) {
+		this.customer_gender = customer_gender;
+	}
+	public String getCustomer_dob() {
+		return customer_dob;
+	}
+	public void setCustomer_dob(String customer_dob) {
+		this.customer_dob = customer_dob;
+	}
+	public String getCustomer_username() {
+		return customer_username;
+	}
+	public void setCustomer_username(String customer_username) {
+		this.customer_username = customer_username;
+	}
+	public String getCustomer_password() {
+		return customer_password;
+	}
+	public void setCustomer_password(String customer_password) {
+		this.customer_password = customer_password;
+	}
+	public Long getCustomer_mobileno() {
 		return customer_mobileno;
 	}
-	public void setCustomer_mobileno(Integer customer_mobileno) {
+	public void setCustomer_mobileno(Long customer_mobileno) {
 		this.customer_mobileno = customer_mobileno;
-	}
-	public Integer getCustomer_alternatemobileno() {
-		return customer_alternatemobileno;
-	}
-	public void setCustomer_alternatemobileno(Integer customer_alternatemobileno) {
-		this.customer_alternatemobileno = customer_alternatemobileno;
 	}
 	public String getCustomer_emailid() {
 		return customer_emailid;
@@ -80,12 +111,9 @@ public class Customer
 	public void setCustomer_pincode(Integer customer_pincode) {
 		this.customer_pincode = customer_pincode;
 	}
-	public String getCustomer_country() {
-		return customer_country;
-	}
-	public void setCustomer_country(String customer_country) {
-		this.customer_country = customer_country;
-	}
+
+	
+	
 	
 	
 	
