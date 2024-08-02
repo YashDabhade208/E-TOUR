@@ -1,15 +1,18 @@
 package com.example.model;
 
-import java.sql.Date;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Cost 
+public class Cost
 {
 	@Id
 	private Integer cost_id;
-	
+
     @ManyToOne
     @JoinColumn( name="catmaster_id",nullable = false)
 	private Category catmaster_id;
@@ -18,8 +21,8 @@ public class Cost
 	private Integer extra_person_cost;
 	private Integer child_with_bed_cost;
 	private Integer child_without_bed_cost;
-	private Date validfrom;
-	private Date validto;
+	private Integer validfrom;
+	private Integer validto;
 	public Integer getCost_id() {
 		return cost_id;
 	}
@@ -62,18 +65,18 @@ public class Cost
 	public void setChild_without_bed_cost(Integer child_without_bed_cost) {
 		this.child_without_bed_cost = child_without_bed_cost;
 	}
-	public Date getValidfrom() {
+	public Integer getValidfrom() {
 		return validfrom;
 	}
-	public void setValidfrom(Date validfrom) {
+	public void setValidfrom(Integer validfrom) {
 		this.validfrom = validfrom;
 	}
-	public Date getValidto() {
+	public Integer getValidto() {
 		return validto;
 	}
-	public void setValidto(Date validto) {
+	public void setValidto(Integer validto) {
 		this.validto = validto;
 	}
-	
-	
+
+
 }

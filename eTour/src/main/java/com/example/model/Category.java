@@ -1,28 +1,33 @@
 package com.example.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Category_Master")
-public class Category 
+public class Category
 {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable=false,length=5)
 	@Id
 	private Integer Catmaster_id;
-	
+
 	@Column(nullable=false,length=3)
 	private String Category_id;
-	
+
 	@Column(length=3)
 	private String SubCategory_id;
-	
+
 	@Column(length=255)
 	private String Category_Name;
-	
+
 	@Column(length=255)
 	private String Category_Image_Path;
-	
+
 	private boolean flag;
 
 	public Integer getCatmaster_id() {
@@ -72,7 +77,7 @@ public class Category
 	public void setFlag(boolean flag) {
 		this.flag = flag;
 	}
-	
-	
-	
+
+
+
 }

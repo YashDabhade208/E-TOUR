@@ -1,17 +1,19 @@
 package com.example.model;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Entity
-public class Date 
+public class Date
 {
 	@Id
 	private Integer departure_id;
 	@ManyToOne
     @JoinColumn( name="catmaster_id",nullable = false)
 	private Category catmaster_id;
-	private Date departure_date;
-	private Date end_date;
+	private Integer departure_Integer;
+	private Integer end_Integer;
 	private Integer total_days;
 	public Integer getDeparture_id() {
 		return departure_id;
@@ -25,17 +27,17 @@ public class Date
 	public void setCatmaster_id(Category catmaster_id) {
 		this.catmaster_id = catmaster_id;
 	}
-	public Date getDeparture_date() {
-		return departure_date;
+	public Integer getDeparture_Integer() {
+		return departure_Integer;
 	}
-	public void setDeparture_date(Date departure_date) {
-		this.departure_date = departure_date;
+	public void setDeparture_Integer(Integer departure_Integer) {
+		this.departure_Integer = departure_Integer;
 	}
-	public Date getEnd_date() {
-		return end_date;
+	public Integer getEnd_Integer() {
+		return end_Integer;
 	}
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setEnd_Integer(Integer end_Integer) {
+		this.end_Integer = end_Integer;
 	}
 	public Integer getTotal_days() {
 		return total_days;
