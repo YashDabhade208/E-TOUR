@@ -18,6 +18,7 @@ public class Category
 	private Integer Catmaster_id;
 
 	@Column(nullable=false,length=3)
+	
 	private String Category_id;
 
 	@Column(length=3)
