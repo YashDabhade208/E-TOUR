@@ -13,6 +13,7 @@ public class Category
 {
 	
 	
+	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable=false,length=5)
 	@Id
