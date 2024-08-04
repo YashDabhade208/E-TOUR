@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
+import axios from "axios";
 
 function Login() {
    const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function Login() {
    const [error, setError] = useState("");
    const navigate = useNavigate();
    const location = useLocation();
-   // const { login, packageid, customerIdSetter } = useSelectedOptions();
+   const { login, packageid, customerIdSetter } = useSelectedOptions();
    const logged = location.state;
 
    const handleSubmit = async (e) => {
@@ -28,7 +29,7 @@ function Login() {
          return;
       }
       try {
-         const response = await fetch(
+         const response = await axios.get(
             `http://localhost:8080/api/register/${email}/${password}`
          );
          if (!response.ok) {
@@ -114,7 +115,7 @@ function Login() {
             </p> */}
                   <p className="ms-5">
                      Don't have an account?{" "}
-                     <a href="/register" class="link-info">
+                     <a href="/register" className="link-info">
                         Register here
                      </a>
                   </p>
