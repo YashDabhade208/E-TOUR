@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Tour 
 {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer tour_id;
 	@ManyToOne
     @JoinColumn( name="departure_id",nullable = false)
