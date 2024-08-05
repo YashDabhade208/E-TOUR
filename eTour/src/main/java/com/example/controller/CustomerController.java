@@ -48,6 +48,8 @@ public class CustomerController
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
+    
+    
 
     @PutMapping("/update")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
@@ -59,5 +61,45 @@ public class CustomerController
     public ResponseEntity<Void> deleteCustomer(@PathVariable Integer id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Customer loginRequest) {
+        String email = loginRequest.getCustomer_emailid();
+        String password = loginRequest.getCustomer_password();
+
+        boolean isValid = customerService.validateCustomer(email, password);
+        if (isValid) {
+            // Generate a token or session if needed
+            String token = "dummy_token"; // Replace with actual token generation if necessary
+            return ResponseEntity.ok(new LoginResponse("Login successful", token));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+    }
+
+    public static class LoginResponse {
+        private String message;
+        private String token;
+
+        public LoginResponse(String message, String token) {
+            this.message = message;
+            this.token = token;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
     }
     }

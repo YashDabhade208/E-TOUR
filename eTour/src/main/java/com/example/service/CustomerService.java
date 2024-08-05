@@ -33,4 +33,10 @@ public class CustomerService {
     public void deleteCustomer(Integer customerId) {
         customerRepository.deleteById(customerId);
     }
+    
+    
+    public boolean validateCustomer(String email, String password) {
+        Customer customer = customerRepository.getUserByEmailIdAndPass(email, password);
+        return customer != null;
+    }
 }
