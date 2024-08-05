@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import {
    MDBBtn,
    MDBContainer,
@@ -14,7 +15,7 @@ import {
    MDBInput,
 } from "mdb-react-ui-kit";
 
-function FormExample() {
+function Register() {
    const states = [
       "Andhra Pradesh",
       "Arunachal Pradesh",
@@ -81,12 +82,10 @@ function FormExample() {
 
       setValidated(true);
       try {
-         const response = await fetch("http://localhost:8080/customer", {
-            method: "POST",
+         const response = await axios.post("http://localhost:8080/api/customers", customer, {
             headers: {
                "Content-Type": "application/json",
             },
-            body: JSON.stringify(customer),
          });
          console.log(customer);
          if (!response.ok) {
@@ -306,7 +305,7 @@ function FormExample() {
             </Button>
             <p className="ms-5" style={{ marginTop: "5px" }}>
                Already have an account?{" "}
-               <a href="/login" class="link-info">
+               <a href="/login" className="link-info">
                   Login here
                </a>
             </p>
@@ -316,4 +315,4 @@ function FormExample() {
    );
 }
 
-export default FormExample;
+export default Register;
