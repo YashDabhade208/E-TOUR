@@ -2,42 +2,43 @@ package com.example.service;
 
 import com.example.model.Category;
 import com.example.repository.CategoryRepository;
-import com.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService
+{
+	 @Autowired
+	    private CategoryRepository categoryRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+	@Override
+	public List<Category> getAllCategories() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
-    }
+	@Override
+	public Category getCategoryById(Integer id) {
+		return categoryRepository.findById(id).orElseThrow();
+	}
 
-    @Override
-    public Category updateCategory(Category category) {
-        return categoryRepository.save(category);
-    }
+	@Override
+	public Category createCategory(Category category) {
+		return categoryRepository.save(category);
+	}
 
-    @Override
-    public void deleteCategory(Integer categoryId) {
-        categoryRepository.deleteById(categoryId);
-    }
+	@Override
+	public Category updateCategory(Category category) {
+		 return categoryRepository.save(category);
+	}
 
-    @Override
-    public Category getCategoryById(Integer categoryId) {
-        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
-        return optionalCategory.orElse(null);
-    }
+	@Override
+	public void deleteCategory(Integer id) {
+		 categoryRepository.deleteById(id);
+		
+	}
 
-    @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-    }
+	  
 }

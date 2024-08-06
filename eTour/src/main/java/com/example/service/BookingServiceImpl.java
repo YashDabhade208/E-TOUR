@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.model.Booking;
 import com.example.repository.BookingRepository;
-import com.example.service.BookingService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

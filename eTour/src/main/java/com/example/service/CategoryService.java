@@ -1,12 +1,18 @@
 package com.example.service;
 
 import com.example.model.Category;
-import java.util.List;
+
+
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+
 
 public interface CategoryService {
-    Category saveCategory(Category category);
+
+	List<Category> getAllCategories();
+    Category getCategoryById(Integer id);
+    Category createCategory(Category category);
     Category updateCategory(Category category);
-    void deleteCategory(Integer categoryId);
-    Category getCategoryById(Integer categoryId);
-    List<Category> getAllCategories();
+    void deleteCategory(Integer id);
 }

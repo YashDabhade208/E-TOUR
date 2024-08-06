@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController 
-@CrossOrigin("http://localhost:5173/")
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api/customers")
 public class CustomerController 
 {
@@ -48,8 +48,6 @@ public class CustomerController
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
-    
-    
 
     @PutMapping("/update")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
