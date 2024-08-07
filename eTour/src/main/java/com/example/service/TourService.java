@@ -1,13 +1,24 @@
 package com.example.service;
 
-import com.example.model.Tour;
 import java.util.List;
 
-public interface TourService 
-{
-    Tour saveTour(Tour tour);
-    Tour updateTour(Tour tour);
-    void deleteTour(Integer tourId);
-    Tour getTourById(Integer tourId);
-    List<Tour> getAllTours();
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.model.Tour;
+import com.example.repository.TourRepository;
+
+@Service
+public class TourService {
+    @Autowired
+    private TourRepository tourRepository;
+
+    public List<Tour> getAllTours() {
+        return tourRepository.findAll();
+    }
+
+    public Tour getTourById(Integer id) {
+        return tourRepository.findById(id).orElseThrow();
+    }
 }
+

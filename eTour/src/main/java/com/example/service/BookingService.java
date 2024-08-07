@@ -4,9 +4,9 @@ import com.example.model.Booking;
 import java.util.List;
 
 public interface BookingService {
-    Booking saveBooking(Booking booking);
-    Booking updateBooking(Booking booking);
-    void deleteBooking(Integer bookingId);
-    Booking getBookingById(Integer bookingId);
-    List<Booking> getAllBookings();
+	public Booking getBookingById(Integer id);
+	public List<Booking> getAllBookings();
+	public Booking createBooking(Booking booking);
+	public Booking updateBooking(Integer id, Booking booking);
+	public void deleteBooking(Integer id);
 }

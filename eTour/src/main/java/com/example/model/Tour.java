@@ -1,37 +1,40 @@
 package com.example.model;
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
-public class Tour 
-{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer tour_id;
-	@ManyToOne
-    @JoinColumn( name="departure_id",nullable = false)
-	private Date departure_id; 
-	@ManyToOne
-    @JoinColumn( name="catmaster_id",nullable = false)
-	private Category catmaster_id;
-	public Integer getTour_id() {
-		return tour_id;
-	}
-	public void setTour_id(Integer tour_id) {
-		this.tour_id = tour_id;
-	}
-	public Date getDeparture_id() {
-		return departure_id;
-	}
-	public void setDeparture_id(Date departure_id) {
-		this.departure_id = departure_id;
-	}
-	public Category getCatmaster_id() {
-		return catmaster_id;
-	}
-	public void setCatmaster_id(Category catmaster_id) {
-		this.catmaster_id = catmaster_id;
-	}
-	
-	
+@Table(name = "tours")
+public class Tour {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "tour_name")
+    private String name;
+
+    @Column(name = "tour_cost")
+    private Integer cost;
+
+    @Column(name = "tour_destination")
+    private String destination;
+
+    @Column(name = "tour_duration")
+    private Integer duration;
+
+    @Column(name = "tour_description")
+    private String description;
+
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Itinerary> itineraries;
+
+    // getters and setters
 }
