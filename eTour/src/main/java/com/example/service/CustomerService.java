@@ -2,6 +2,9 @@ package com.example.service;
 
 import com.example.model.Customer;
 import com.example.repository.CustomerRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +28,22 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
-
-    public Customer updateCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    @Transactional
+    public Customer updateCustomer(Integer id,Customer customer) {
+        Customer existingCustomer = customerRepository.findById(id).orElseThrow();
+        existingCustomer.setCustomer_firstname(customer.getCustomer_firstname());
+        existingCustomer.setCustomer_lastname(customer.getCustomer_lastname());
+        existingCustomer.setCustomer_gender(customer.getCustomer_gender());
+        existingCustomer.setCustomer_dob(customer.getCustomer_dob());
+        existingCustomer.setCustomer_username(customer.getCustomer_username());
+        existingCustomer.setCustomer_password(customer.getCustomer_password());
+        existingCustomer.setCustomer_mobileno(customer.getCustomer_mobileno());
+        existingCustomer.setCustomer_emailid(customer.getCustomer_emailid());
+        existingCustomer.setCustomer_address(customer.getCustomer_address());
+        existingCustomer.setCustomer_city(customer.getCustomer_city());
+        existingCustomer.setCustomer_state(customer.getCustomer_state());
+        existingCustomer.setCustomer_pincode(customer.getCustomer_pincode());
+        return customerRepository.save(existingCustomer);
     }
 
     public void deleteCustomer(Integer customerId) {

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 @RequestMapping("/api/customers")
 public class CustomerController 
 {
@@ -49,10 +49,14 @@ public class CustomerController
         return ResponseEntity.ok(customers);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
-        Customer updatedCustomer = customerService.updateCustomer(customer);
-        return ResponseEntity.ok(updatedCustomer);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Integer id, @RequestBody Customer customer) {
+    	  if (id == null) {
+    	        throw new IllegalArgumentException("Id cannot be null");
+    	    }
+    	 getCustomerById(id);
+        Customer updatedCustomer = customerService.updateCustomer(id, customer);
+        return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -68,7 +72,7 @@ public class CustomerController
         boolean isValid = customerService.validateCustomer(email, password);
         if (isValid) {
             // Generate a token or session if needed
-            String token = "dummy_token"; // Replace with actual token generation if necessary
+            String token = "etourMarch2024"; // Replace with actual token generation if necessary
             return ResponseEntity.ok(new LoginResponse("Login successful", token));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
