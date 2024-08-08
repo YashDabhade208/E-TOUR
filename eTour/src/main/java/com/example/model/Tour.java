@@ -33,8 +33,68 @@ public class Tour {
     @Column(name = "tour_description")
     private String description;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+ @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Itinerary> itineraries;
 
-    // getters and setters
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getCost() {
+		return cost;
+	}
+
+	public void setCost(Integer cost) {
+		this.cost = cost;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Itinerary> getItineraries() {
+		return itineraries;
+	}
+
+	
+	   public void setItineraries(List<Itinerary> itineraries) {
+	        this.itineraries = itineraries;
+	        for (Itinerary itinerary : itineraries) {
+	            itinerary.setTour(this);
+	        }
+
+    
+	   }
 }

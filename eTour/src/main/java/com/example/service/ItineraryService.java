@@ -8,35 +8,18 @@ import org.springframework.stereotype.Service;
 import com.example.model.Itinerary;
 import com.example.repository.ItineraryRepository;
 
-@Service
-public class ItineraryService {
-    @Autowired
-    private ItineraryRepository itineraryRepository;
 
-    public List<Itinerary> getAllItineraries() {
-        return itineraryRepository.findAll();
-    }
+public interface ItineraryService {
+  
+    public List<Itinerary> getAllItineraries() ;
 
-    public Itinerary getItineraryById(Integer id) {
-        return itineraryRepository.findById(id).orElseThrow();
-    }
+    public Itinerary getItineraryById(Integer id);
 
-    public List<Itinerary> getItinerariesByTourId(Integer tourId) {
-        return itineraryRepository.findByTourId(tourId);
-    }
+    public List<Itinerary> getItinerariesByTourId(Integer tourId);
 
-    public Itinerary createItinerary(Itinerary itinerary) {
-        return itineraryRepository.save(itinerary);
-    }
+    public Itinerary createItinerary(Itinerary itinerary);
 
-    public Itinerary updateItinerary(Integer id, Itinerary itinerary) {
-        Itinerary existingItinerary = getItineraryById(id);
-        existingItinerary.setDescription(itinerary.getDescription());
-        existingItinerary.setDate(itinerary.getDate());
-        return itineraryRepository.save(existingItinerary);
-    }
+    public Itinerary updateItinerary(Integer id, Itinerary itinerary);
 
-    public void deleteItinerary(Integer id) {
-        itineraryRepository.deleteById(id);
-    }
+    public void deleteItinerary(Integer id) ;
 }

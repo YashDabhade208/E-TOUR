@@ -18,7 +18,7 @@ import com.example.service.BookingService;
 
 @RestController
 @RequestMapping("/api/bookings")
-@CrossOrigin("*	")
+@CrossOrigin("*")
 public class BookingController {
 
     @Autowired
