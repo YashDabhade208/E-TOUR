@@ -1,46 +1,41 @@
 package com.example.controller;
 
-import com.example.model.Category;
-import com.example.service.CategoryService;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.example.model.Category;
+import com.example.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryRepository categoryRepository;
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
-        return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) {
-        return new ResponseEntity<>(categoryService.getCategoryById(id), HttpStatus.OK);
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
-        return new ResponseEntity<>(categoryService.createCategory(category), HttpStatus.CREATED);
+    public Category createCategory(@RequestBody Category category) {
+        return categoryRepository.save(category);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
-        category.setId(id);
-        return new ResponseEntity<>(categoryService.updateCategory(category), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public Category getCategoryById(@PathVariable Integer id) {
+        return categoryRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("Category not found with id " + id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
-        categoryService.deleteCategory(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+    // Additional methods for updating and deleting categories can be added here
 }

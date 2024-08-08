@@ -2,12 +2,15 @@ package com.example.model;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -33,68 +36,77 @@ public class Tour {
     @Column(name = "tour_description")
     private String description;
 
- @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne
+    @JsonBackReference
+    private Category category;
+
+    @OneToMany(mappedBy = "tour")
+    @JsonManagedReference
     private List<Itinerary> itineraries;
 
-	public Integer getId() {
-		return id;
-	}
+    // Getters and setters
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getCost() {
-		return cost;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCost(Integer cost) {
-		this.cost = cost;
-	}
+    public Integer getCost() {
+        return cost;
+    }
 
-	public String getDestination() {
-		return destination;
-	}
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
 
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
+    public String getDestination() {
+        return destination;
+    }
 
-	public Integer getDuration() {
-		return duration;
-	}
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
+    public Integer getDuration() {
+        return duration;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public List<Itinerary> getItineraries() {
-		return itineraries;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	
-	   public void setItineraries(List<Itinerary> itineraries) {
-	        this.itineraries = itineraries;
-	        for (Itinerary itinerary : itineraries) {
-	            itinerary.setTour(this);
-	        }
+    public Category getCategory() {
+        return category;
+    }
 
-    
-	   }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Itinerary> getItineraries() {
+        return itineraries;
+    }
+
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
+    }
 }

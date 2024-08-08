@@ -19,7 +19,7 @@ public class Booking {
 
 	@ManyToOne
 	@JoinColumn(name = "subcategory_id")
-	private SubCategory subcategory_id;
+	private Tour subcategory_id;
 
 	private String firstname;
 	private String lastname;
@@ -56,11 +56,11 @@ public class Booking {
 		this.customer_id = customer_id;
 	}
 
-	public SubCategory getSubcategory_id() {
+	public Tour getSubcategory_id() {
 		return subcategory_id;
 	}
 
-	public void setSubcategory_id(SubCategory subcategory_id) {
+	public void setSubcategory_id(Tour subcategory_id) {
 		this.subcategory_id = subcategory_id;
 	}
 

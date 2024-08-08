@@ -1,11 +1,9 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,45 +11,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.model.Itinerary;
+import com.example.model.Category;
 import com.example.model.Tour;
-import com.example.service.ItineraryService;
-import com.example.service.TourService;
+import com.example.repository.CategoryRepository;
+import com.example.repository.TourRepository;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin("*")
+@RequestMapping("/api/tours")
 public class TourController {
-    @Autowired
-    private TourService tourService;
 
     @Autowired
-    private ItineraryService itineraryService;
+    private TourRepository tourRepository;
 
-    @GetMapping("/tours")
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @GetMapping
     public List<Tour> getAllTours() {
-        return tourService.getAllTours();
-    }
-    @PostMapping("/createTour")
-    public ResponseEntity<String> createTours(@RequestBody List<Tour> tours) {
-        try {
-            for (Tour tour : tours) {
-                tourService.createTour(tour);
-            }
-            return new ResponseEntity<>("Tours created successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error creating tours: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-    
-    @GetMapping("/tours/{id}")
-    public Tour getTourById(@PathVariable Integer id) {
-        return tourService.getTourById(id);
+        return tourRepository.findAll();
     }
 
-    @GetMapping("/tours/{id}/itineraries")
-    public List<Itinerary> getItinerariesByTourId(@PathVariable Integer id) {
-        return itineraryService.getItinerariesByTourId(id);
+    @PostMapping
+    public Tour createTour(@RequestBody Tour tour) {
+        return tourRepository.save(tour);
     }
 }
-

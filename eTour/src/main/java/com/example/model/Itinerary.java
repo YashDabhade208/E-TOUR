@@ -1,16 +1,17 @@
 package com.example.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.Table;
 
 @Entity
-
+@Table(name = "itineraries")
 public class Itinerary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,40 +24,40 @@ public class Itinerary {
     private String date;
 
     @ManyToOne
-    @JoinColumn(name = "tour_id")
+    @JsonBackReference
     private Tour tour;
 
-	public Integer getId() {
-		return id;
-	}
+    // Getters and setters
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public Tour getTour() {
-		return tour;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public void setTour(Tour tour) {
-		this.tour = tour;
-	}
+    public Tour getTour() {
+        return tour;
+    }
 
-    
+    public void setTour(Tour tour) {
+        this.tour = tour;
+    }
 }
