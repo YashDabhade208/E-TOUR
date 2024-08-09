@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Tour;
-import com.example.repository.CategoryRepository;
+
 import com.example.repository.TourRepository;
 
 @Service
@@ -16,8 +16,6 @@ public class TourServiceImpl implements TourService {
     @Autowired
     private TourRepository tourRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     public List<Tour> getAllTours() {
         return tourRepository.findAll();

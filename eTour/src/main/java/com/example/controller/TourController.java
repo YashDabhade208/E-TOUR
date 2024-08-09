@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Tour;
-import com.example.repository.CategoryRepository;
+
 import com.example.repository.TourRepository;
 
 @RestController
@@ -23,8 +23,7 @@ public class TourController {
     @Autowired
     private TourRepository tourRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+  
 
     @GetMapping
     public List<Tour> getAllTours() {

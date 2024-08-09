@@ -1,63 +1,41 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Booking;
-import com.example.model.Customer;
-import com.example.model.Tour;
+import com.example.model.Passenger;
 import com.example.repository.BookingRepository;
-import com.example.repository.CustomerRepository;
-import com.example.repository.TourRepository;
+import com.example.repository.PassengerRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class BookingServiceImpl implements BookingService {
-
     @Autowired
     private BookingRepository bookingRepository;
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private TourRepository tourRepository;
+    private PassengerRepository passengerRepository;
 
     @Override
     @Transactional
-    public Booking createBooking(Booking booking) {
-        // Ensure Customer is persisted
-        Customer customer = customerRepository.save(booking.getCustomer_id());
-        booking.setCustomer_id(customer);
+    public Booking createBooking(Booking booking, List<Passenger> passengers) {
+        Booking savedBooking = bookingRepository.save(booking);
 
-        // Ensure Tour is persisted
-        Tour tour = tourRepository.save(booking.getSubcategory_id());
-        booking.setSubcategory_id(tour);
+        for (Passenger passenger : passengers) {
+            passenger.setBooking(savedBooking);
+            passengerRepository.save(passenger);
+        }
 
-        return bookingRepository.save(booking);
+        return savedBooking;
     }
 
-	@Override
-	public Booking getBookingById(Integer id) {
-		 return bookingRepository.findById(id).orElse(null);
-	}
-
-	@Override
-	public List<Booking> getAllBookings() {
-		 return bookingRepository.findAll();
-	}
-
-	@Override
-	public Booking updateBooking(Integer id, Booking booking) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteBooking(Integer id) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Optional<Booking> getBookingById(Integer id) {
+        return bookingRepository.findById(id);
+    }
 }

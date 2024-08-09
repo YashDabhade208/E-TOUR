@@ -1,58 +1,74 @@
 package com.example.model;
 
-
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
-public class Cost
-{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer cost_id;
+@Table(name = "cost")
+public class Cost {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cost_id")
+    private Integer id;
 
     @ManyToOne
-    @JoinColumn( name="tourid",nullable = false)
-    @JsonBackReference
-	private Tour tourid;
-	private Integer single_person_cost;
-	private Integer child_with_bed_cost;
-	private Integer child_without_bed_cost;
+    @JoinColumn(name = "tour_id", nullable = false)
+    private Tour tour;
 
-	public Integer getCost_id() {
-		return cost_id;
-	}
-	public void setCost_id(Integer cost_id) {
-		this.cost_id = cost_id;
-	}
-	
-	public Integer getSingle_person_cost() {
-		return single_person_cost;
-	}
-	public void setSingle_person_cost(Integer single_person_cost) {
-		this.single_person_cost = single_person_cost;
-	}
-	
-	public Integer getChild_with_bed_cost() {
-		return child_with_bed_cost;
-	}
-	public void setChild_with_bed_cost(Integer child_with_bed_cost) {
-		this.child_with_bed_cost = child_with_bed_cost;
-	}
-	public Integer getChild_without_bed_cost() {
-		return child_without_bed_cost;
-	}
-	public void setChild_without_bed_cost(Integer child_without_bed_cost) {
-		this.child_without_bed_cost = child_without_bed_cost;
-	}
-	
+    @Column(name = "single_person_cost")
+    private Integer singlePersonCost;
 
+    @Column(name = "child_with_bed_cost")
+    private Integer childWithBedCost;
 
+    @Column(name = "child_without_bed_cost")
+    private Integer childWithoutBedCost;
+
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Tour getTour() {
+        return tour;
+    }
+
+    public void setTour(Tour tour) {
+        this.tour = tour;
+    }
+
+    public Integer getSinglePersonCost() {
+        return singlePersonCost;
+    }
+
+    public void setSinglePersonCost(Integer singlePersonCost) {
+        this.singlePersonCost = singlePersonCost;
+    }
+
+    public Integer getChildWithBedCost() {
+        return childWithBedCost;
+    }
+
+    public void setChildWithBedCost(Integer childWithBedCost) {
+        this.childWithBedCost = childWithBedCost;
+    }
+
+    public Integer getChildWithoutBedCost() {
+        return childWithoutBedCost;
+    }
+
+    public void setChildWithoutBedCost(Integer childWithoutBedCost) {
+        this.childWithoutBedCost = childWithoutBedCost;
+    }
 }

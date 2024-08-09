@@ -1,56 +1,85 @@
 package com.example.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Passenger 
-{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer passenger_id;
-	
-	@ManyToOne
-    @JoinColumn(nullable = false)
-	private Booking booking_id;
-	private String passenger_name;
-	private String passenger_dob;
-	private String passenger_type;
-	private Integer passenger_amount;
-	public Integer getPassenger_id() {
-		return passenger_id;
-	}
-	public void setPassenger_id(Integer passenger_id) {
-		this.passenger_id = passenger_id;
-	}
-	public Booking getBooking_id() {
-		return booking_id;
-	}
-	public void setBooking_id(Booking booking_id) {
-		this.booking_id = booking_id;
-	}
-	public String getPassenger_name() {
-		return passenger_name;
-	}
-	public void setPassenger_name(String passenger_name) {
-		this.passenger_name = passenger_name;
-	}
-	public String getPassenger_dob() {
-		return passenger_dob;
-	}
-	public void setPassenger_dob(String passenger_dob) {
-		this.passenger_dob = passenger_dob;
-	}
-	public String getPassenger_type() {
-		return passenger_type;
-	}
-	public void setPassenger_type(String passenger_type) {
-		this.passenger_type = passenger_type;
-	}
-	public Integer getPassenger_amount() {
-		return passenger_amount;
-	}
-	public void setPassenger_amount(Integer passenger_amount) {
-		this.passenger_amount = passenger_amount;
-	}
-	
+public class Passenger {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer age;
+
+    @Column(nullable = false)
+    private String mobileNo;
+
+    @Column(nullable = false)
+    private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
+
+    // Getters and setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
 }
+
