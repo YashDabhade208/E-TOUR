@@ -21,11 +21,11 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private PassengerRepository passengerRepository;
 
-    @Override
-    @Transactional
     public Booking createBooking(Booking booking, List<Passenger> passengers) {
+        // Save booking
         Booking savedBooking = bookingRepository.save(booking);
-
+        
+        // Set booking reference for passengers
         for (Passenger passenger : passengers) {
             passenger.setBooking(savedBooking);
             passengerRepository.save(passenger);

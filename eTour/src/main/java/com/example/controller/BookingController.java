@@ -1,11 +1,14 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 // BookingController.java
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import com.example.service.BookingService;
 
 @RestController
 @RequestMapping("/api/bookings")
+@CrossOrigin("*")
 public class BookingController {
     @Autowired
     private BookingService bookingService;
@@ -28,98 +32,37 @@ public class BookingController {
         booking.setFirstname(request.getFirstname());
         booking.setLastname(request.getLastname());
         booking.setMobileno(request.getMobileno());
-        // Set other booking fields...
+        booking.setEmail(request.getEmail());
+        booking.setAdhaarno(request.getAdhaarno());
+        booking.setAddress(request.getAddress());
+        booking.setCity(request.getCity());
+        booking.setState(request.getState());
+        booking.setCountry(request.getCountry());
+        booking.setPincode(request.getPincode());
+        booking.setNumberOfPassenger(request.getNumberOfPassenger());
+        booking.setNumberOfChildWithBed(request.getNumberOfChildWithBed());
+        booking.setNumberOfChildWithoutBed(request.getNumberOfChildWithoutBed());
+        booking.setBookingDate(request.getBookingDate());
 
-        List<Passenger> passengers = request.getPassengers().stream().map(p -> {
-            Passenger passenger = new Passenger();
-            passenger.setName(p.getName());
-            passenger.setAge(p.getAge());
-            passenger.setMobileNo(p.getMobileNo());
-            passenger.setEmail(p.getEmail());
-            return passenger;
-        }).toList();
+        List<Passenger> passengers = (request.getPassengers() != null ? request.getPassengers() : new ArrayList<>()).stream()
+                .map(p -> {
+                    if (p instanceof BookingRequest.PassengerRequest) {
+                        BookingRequest.PassengerRequest passengerRequest = (BookingRequest.PassengerRequest) p;
+                        Passenger passenger = new Passenger();
+                        passenger.setName(passengerRequest.getName());
+                        passenger.setAge(passengerRequest.getAge());
+                        passenger.setMobileNo(passengerRequest.getMobileNo());
+                        passenger.setEmail(passengerRequest.getEmail());
+                        return passenger;
+                    } else {
+                        throw new IllegalArgumentException("Unexpected type of PassengerRequest");
+                    }
+                })
+            .collect(Collectors.toList());
 
         Booking savedBooking = bookingService.createBooking(booking, passengers);
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
     }
 
     // Other methods
-}
-
-class BookingRequest {
-    private String firstname;
-    private String lastname;
-    private String mobileno;
-    // Other booking fields...
-
-    private List<PassengerRequest> passengers;
-
-    // Getters and setters
-    
-
-    public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getMobileno() {
-		return mobileno;
-	}
-
-	public void setMobileno(String mobileno) {
-		this.mobileno = mobileno;
-	}
-
-	public List<PassengerRequest> getPassengers() {
-		return passengers;
-	}
-
-	public void setPassengers(List<PassengerRequest> passengers) {
-		this.passengers = passengers;
-	}
-
-	// Nested class for passenger details
-    public static class PassengerRequest {
-        public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public Integer getAge() {
-			return age;
-		}
-		public void setAge(Integer age) {
-			this.age = age;
-		}
-		public String getMobileNo() {
-			return mobileNo;
-		}
-		public void setMobileNo(String mobileNo) {
-			this.mobileNo = mobileNo;
-		}
-		public String getEmail() {
-			return email;
-		}
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		private String name;
-        private Integer age;
-        private String mobileNo;
-        private String email;
-
-        // Getters and setters
-    }
 }
