@@ -2,11 +2,13 @@ package com.example.service;
 
 import com.example.model.Cost;
 import java.util.List;
+import java.util.Optional;
 
 public interface CostService {
-    Cost saveCost(Cost cost);
-    Cost updateCost(Cost cost);
-    void deleteCost(Integer costId);
-    Cost getCostById(Integer costId);
-    List<Cost> getAllCosts();
+	public List<Cost> getAllCostings();
+	public Optional<Cost> getCostingById(Integer id);
+	 public Cost updateCost(Integer id, Cost cost) ;
+	 public void deleteCost(Integer id);
+	public Cost createCost(Cost cost);
+	 
 }

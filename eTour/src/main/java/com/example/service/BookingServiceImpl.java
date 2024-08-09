@@ -1,11 +1,14 @@
 package com.example.service;
 
-import com.example.model.Booking;
-import com.example.repository.BookingRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.model.Booking;
+import com.example.model.Tour;
+import com.example.repository.BookingRepository;
+import com.example.repository.TourRepository;
 
 
 @Service
@@ -23,9 +26,15 @@ public class BookingServiceImpl implements BookingService
         return bookingRepository.findById(id).orElseThrow();
     }
 
+    @Autowired
+    private TourRepository tourRepository;
+
     public Booking createBooking(Booking booking) {
+        Tour tour = tourRepository.save(booking.getSubcategory_id());
+        booking.setSubcategory_id(tour);
         return bookingRepository.save(booking);
     }
+
 
     public Booking updateBooking(Integer id, Booking booking) {
         Booking existingBooking = getBookingById(id);

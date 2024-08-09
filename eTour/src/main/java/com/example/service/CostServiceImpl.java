@@ -12,32 +12,30 @@ import java.util.Optional;
 @Service
 public class CostServiceImpl implements CostService {
 
-    @Autowired
-    private CostRepository costRepository;
+	 @Autowired
+	    private CostRepository costRepository;
 
-    @Override
-    public Cost saveCost(Cost cost) {
-        return costRepository.save(cost);
-    }
+	    public List<Cost> getAllCostings() {
+	        return costRepository.findAll();
+	    }
 
-    @Override
-    public Cost updateCost(Cost cost) {
-        return costRepository.save(cost);
-    }
+	    public Optional<Cost> getCostingById(Integer id) {
+	        return costRepository.findById(id);
+	    }
 
-    @Override
-    public void deleteCost(Integer costId) {
-        costRepository.deleteById(costId);
-    }
+	    public Cost createCost(Cost cost) {
+	        return costRepository.save(cost);
+	    }
 
-    @Override
-    public Cost getCostById(Integer costId) {
-        Optional<Cost> optionalCost = costRepository.findById(costId);
-        return optionalCost.orElse(null);
-    }
+	    public Cost updateCost(Integer id, Cost cost) {
+	        if (costRepository.existsById(id)) {
+	            cost.setCost_id(id);
+	            return costRepository.save(cost);
+	        }
+	        return null;
+	    }
 
-    @Override
-    public List<Cost> getAllCosts() {
-        return costRepository.findAll();
-    }
+	    public void deleteCost(Integer id) {
+	        costRepository.deleteById(id);
+	    }
 }

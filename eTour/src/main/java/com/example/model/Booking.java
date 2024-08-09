@@ -1,5 +1,6 @@
 package com.example.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,7 @@ public class Booking {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer booking_id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Customer customer_id;
 

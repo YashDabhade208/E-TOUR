@@ -22,7 +22,7 @@ public class Tour {
     private Integer id;
 
     @Column(name = "tour_name")
-    private String name;
+    private String 	name;
 
     @Column(name = "tour_cost")
     private Integer cost;

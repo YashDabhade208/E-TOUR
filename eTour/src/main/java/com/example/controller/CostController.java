@@ -1,3 +1,5 @@
+// src/main/java/com/example/controller/CostController.java
+
 package com.example.controller;
 
 import com.example.model.Cost;
@@ -15,34 +17,35 @@ public class CostController {
     @Autowired
     private CostService costService;
 
+    @GetMapping
+    public List<Cost> getAllCosts() {
+        return costService.getAllCostings();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Cost> getCostById(@PathVariable Integer id) {
+        return costService.getCostingById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
-    public ResponseEntity<Cost> createCost(@RequestBody Cost cost) {
-        Cost savedCost = costService.saveCost(cost);
-        return ResponseEntity.ok(savedCost);
+    public Cost createCost(@RequestBody Cost cost) {
+        return costService.createCost(cost);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cost> updateCost(@PathVariable Integer id, @RequestBody Cost cost) {
-        cost.setCost_id(id);
-        Cost updatedCost = costService.updateCost(cost);
-        return ResponseEntity.ok(updatedCost);
+        Cost updatedCost = costService.updateCost(id, cost);
+        if (updatedCost != null) {
+            return ResponseEntity.ok(updatedCost);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCost(@PathVariable Integer id) {
         costService.deleteCost(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Cost> getCostById(@PathVariable Integer id) {
-        Cost cost = costService.getCostById(id);
-        return ResponseEntity.ok(cost);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Cost>> getAllCosts() {
-        List<Cost> costs = costService.getAllCosts();
-        return ResponseEntity.ok(costs);
     }
 }
