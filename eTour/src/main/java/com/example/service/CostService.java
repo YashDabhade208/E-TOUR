@@ -1,13 +1,12 @@
 package com.example.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.example.model.Cost;
+import com.example.repository.CostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.model.Cost;
-import com.example.repository.CostRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CostService {
@@ -19,9 +18,10 @@ public class CostService {
         return costRepository.findAll();
     }
 
-    public Optional<Cost> getCostById(Integer id) {
-        return costRepository.findById(id);
+    public Optional<Cost> getCostByTourId(Integer tourId) {
+        return costRepository.findByTourId(tourId);
     }
+
 
     public Cost createOrUpdateCost(Cost cost) {
         return costRepository.save(cost);

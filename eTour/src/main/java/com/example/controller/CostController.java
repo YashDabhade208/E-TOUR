@@ -1,8 +1,10 @@
 package com.example.controller;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.Cost;
 import com.example.service.CostService;
 
-
 @RestController
 @RequestMapping("/api/costs")
 public class CostController {
@@ -29,9 +30,9 @@ public class CostController {
         return costService.getAllCosts();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Cost> getCostById(@PathVariable Integer id) {
-        Optional<Cost> cost = costService.getCostById(id);
+    @GetMapping("/{tourId}")
+    public ResponseEntity<Cost> getCostByTourId(@PathVariable Integer tourId) {
+        Optional<Cost> cost = costService.getCostByTourId(tourId);
         if (cost.isPresent()) {
             return ResponseEntity.ok(cost.get());
         } else {
@@ -39,14 +40,16 @@ public class CostController {
         }
     }
 
+
     @PostMapping
-    public Cost createCost(@RequestBody Cost cost) {
-        return costService.createOrUpdateCost(cost);
+    public ResponseEntity<Cost> createCost(@RequestBody Cost cost) {
+        Cost createdCost = costService.createOrUpdateCost(cost);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCost);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cost> updateCost(@PathVariable Integer id, @RequestBody Cost costDetails) {
-        Optional<Cost> cost = costService.getCostById(id);
+        Optional<Cost> cost = costService.getCostByTourId(id);
         if (cost.isPresent()) {
             Cost existingCost = cost.get();
             existingCost.setTour(costDetails.getTour());
@@ -62,7 +65,7 @@ public class CostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCost(@PathVariable Integer id) {
-        Optional<Cost> cost = costService.getCostById(id);
+        Optional<Cost> cost = costService.getCostByTourId(id);
         if (cost.isPresent()) {
             costService.deleteCost(id);
             return ResponseEntity.noContent().build();
