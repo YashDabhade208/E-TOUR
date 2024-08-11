@@ -9,5 +9,5 @@ import com.example.model.Cost;
 
 @Repository
 public interface CostRepository extends JpaRepository<Cost, Integer> {
-    Optional<Cost> findByTourId(Integer tourId);
+   
 }

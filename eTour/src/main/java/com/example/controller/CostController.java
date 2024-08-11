@@ -1,10 +1,8 @@
 package com.example.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,52 +23,31 @@ public class CostController {
     @Autowired
     private CostService costService;
 
-    @GetMapping
-    public List<Cost> getAllCosts() {
-        return costService.getAllCosts();
-    }
-
-    @GetMapping("/{tourId}")
-    public ResponseEntity<Cost> getCostByTourId(@PathVariable Integer tourId) {
-        Optional<Cost> cost = costService.getCostByTourId(tourId);
-        if (cost.isPresent()) {
-            return ResponseEntity.ok(cost.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
     @PostMapping
     public ResponseEntity<Cost> createCost(@RequestBody Cost cost) {
-        Cost createdCost = costService.createOrUpdateCost(cost);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCost);
+        Cost savedCost = costService.saveCost(cost);
+        return ResponseEntity.ok(savedCost);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Cost> getCostById(@PathVariable Integer id) {
+        Cost cost = costService.getCostById(id);
+        if (cost == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cost);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Cost> updateCost(@PathVariable Integer id, @RequestBody Cost costDetails) {
-        Optional<Cost> cost = costService.getCostByTourId(id);
-        if (cost.isPresent()) {
-            Cost existingCost = cost.get();
-            existingCost.setTour(costDetails.getTour());
-            existingCost.setSinglePersonCost(costDetails.getSinglePersonCost());
-            existingCost.setChildWithBedCost(costDetails.getChildWithBedCost());
-            existingCost.setChildWithoutBedCost(costDetails.getChildWithoutBedCost());
-            final Cost updatedCost = costService.createOrUpdateCost(existingCost);
-            return ResponseEntity.ok(updatedCost);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Cost updatedCost = costService.updateCost(id, costDetails);
+        return ResponseEntity.ok(updatedCost);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCost(@PathVariable Integer id) {
-        Optional<Cost> cost = costService.getCostByTourId(id);
-        if (cost.isPresent()) {
-            costService.deleteCost(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        costService.deleteCost(id);
+        return ResponseEntity.noContent().build();
     }
 }

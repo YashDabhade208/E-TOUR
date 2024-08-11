@@ -11,10 +11,6 @@ public class Cost {
     @Column(name = "cost_id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tour_id", nullable = false)
-    private Tour tour;
-
     @Column(name = "single_person_cost")
     private Integer singlePersonCost;
 
@@ -31,14 +27,6 @@ public class Cost {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Tour getTour() {
-        return tour;
-    }
-
-    public void setTour(Tour tour) {
-        this.tour = tour;
     }
 
     public Integer getSinglePersonCost() {
