@@ -19,7 +19,7 @@ public class BookingRequest {
     private String bookingDate;
     private List<PassengerRequest> passengers;
 
-    // Getters and setters
+   
 
     public String getFirstname() {
         return firstname;
@@ -141,15 +141,14 @@ public class BookingRequest {
         this.passengers = passengers;
     }
 
-    // Nested class for passenger details
+   
     public static class PassengerRequest {
         private String name;
         private Integer age;
         private String mobileNo;
         private String email;
 
-        // Getters and setters
-
+       
         public String getName() {
             return name;
         }

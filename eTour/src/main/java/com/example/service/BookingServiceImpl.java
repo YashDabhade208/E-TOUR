@@ -22,10 +22,10 @@ public class BookingServiceImpl implements BookingService {
     private PassengerRepository passengerRepository;
 
     public Booking createBooking(Booking booking, List<Passenger> passengers) {
-        // Save booking
+        
         Booking savedBooking = bookingRepository.save(booking);
         
-        // Set booking reference for passengers
+       
         for (Passenger passenger : passengers) {
             passenger.setBooking(savedBooking);
             passengerRepository.save(passenger);
@@ -34,8 +34,19 @@ public class BookingServiceImpl implements BookingService {
         return savedBooking;
     }
 
-    @Override
-    public Optional<Booking> getBookingById(Integer id) {
-        return bookingRepository.findById(id);
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+
+    public Booking getBookingById(Integer id) {
+        return bookingRepository.findById(id).orElse(null);
+    }
+
+    public Booking updateBooking(Booking booking) {
+        return bookingRepository.save(booking);
+    }
+
+    public void deleteBooking(Integer id) {
+        bookingRepository.deleteById(id);
     }
 }
