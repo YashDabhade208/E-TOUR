@@ -20,7 +20,7 @@ namespace eTour.Service
             return subcategory;
         }
 
-        public async Task<SubCategory> DeleteCategory(int subcategory_id)
+        public async Task<SubCategory> DeleteSubCategory(int subcategory_id)
         {
             SubCategory subcategory = context.SubCategories.Find(subcategory_id);
             if (subcategory != null)

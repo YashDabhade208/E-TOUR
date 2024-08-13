@@ -9,6 +9,6 @@ namespace eTour.Service
         Task<ActionResult<IEnumerable<SubCategory>>> GetAllSubCategories();
         Task<ActionResult<SubCategory>> CreateSubCatgory(SubCategory subcategory);
         Task<ActionResult<SubCategory>> UpdateSubCategory(int subcategory_id,SubCategory subcategory);
-        Task<SubCategory>DeleteCategory(int subcategory_id);
+        Task<SubCategory>DeleteSubCategory(int subcategory_id);
     }
 }
