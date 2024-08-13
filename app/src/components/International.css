@@ -1,0 +1,48 @@
+/* Grid.css */
+.grid-container {
+    display: grid;
+    margin-top: 200px;
+    margin-left: 20px;
+    margin-right: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px; /* Adjust the gap between the cards as needed */
+}
+
+.card {
+    padding-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    height: 40vh;
+    margin-bottom: 26px;
+    border-radius: 10px; /* Optional: to round the corners of the cards */
+}
+
+.card-body {
+    color: black;
+    padding: 15px;
+    text-align: center;
+    height: 15vh;
+}
+
+button {
+    background-color: #ff6347;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+h1 {
+    color: rgba(248, 207, 207, 0.964);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1em;
+}
