@@ -55,8 +55,7 @@ namespace eTour.Controllers
             return NoContent();
         }
 
-
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Tours>> DeleteSubCategory(int tour_id)
         {
             return await service.DeleteTours(tour_id);

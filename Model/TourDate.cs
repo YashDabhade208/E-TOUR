@@ -12,7 +12,7 @@ namespace eTour.Model
         public string Validto { get; set; }
 
         [ForeignKey("Tours")]
-        public int Tour_Id {  get; set; }
+        public int Tour_Id { get; set; }
         public Tours Tours { get; set; }
 
     }

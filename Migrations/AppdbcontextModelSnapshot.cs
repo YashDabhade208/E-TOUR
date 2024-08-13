@@ -17,7 +17,7 @@ namespace eTour.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -38,6 +38,33 @@ namespace eTour.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("eTour.Model.Cost", b =>
+                {
+                    b.Property<int>("Cost_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Cost_id"));
+
+                    b.Property<int>("Childwithbed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Childwithoutbed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Tour_Cost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Tour_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Cost_id");
+
+                    b.HasIndex("Tour_Id");
+
+                    b.ToTable("Costs");
+                });
+
             modelBuilder.Entity("eTour.Model.Iternery", b =>
                 {
                     b.Property<int>("Iternery_Id")
@@ -52,12 +79,9 @@ namespace eTour.Migrations
                     b.Property<int>("Tour_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ToursTour_Id")
-                        .HasColumnType("int");
-
                     b.HasKey("Iternery_Id");
 
-                    b.HasIndex("ToursTour_Id");
+                    b.HasIndex("Tour_Id");
 
                     b.ToTable("Iterneries");
                 });
@@ -133,11 +157,24 @@ namespace eTour.Migrations
                     b.ToTable("Tour");
                 });
 
+            modelBuilder.Entity("eTour.Model.Cost", b =>
+                {
+                    b.HasOne("eTour.Model.Tours", "Tours")
+                        .WithMany()
+                        .HasForeignKey("Tour_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tours");
+                });
+
             modelBuilder.Entity("eTour.Model.Iternery", b =>
                 {
                     b.HasOne("eTour.Model.Tours", "Tours")
                         .WithMany("Iterneries")
-                        .HasForeignKey("ToursTour_Id");
+                        .HasForeignKey("Tour_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Tours");
                 });
@@ -145,7 +182,7 @@ namespace eTour.Migrations
             modelBuilder.Entity("eTour.Model.SubCategory", b =>
                 {
                     b.HasOne("eTour.Model.Category", "Category")
-                        .WithMany()
+                        .WithMany("SubCategories")
                         .HasForeignKey("Category_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -171,6 +208,11 @@ namespace eTour.Migrations
                         .HasForeignKey("SubCategory");
 
                     b.Navigation("Subcategory");
+                });
+
+            modelBuilder.Entity("eTour.Model.Category", b =>
+                {
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("eTour.Model.SubCategory", b =>

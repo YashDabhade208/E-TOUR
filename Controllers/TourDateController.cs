@@ -38,7 +38,7 @@ namespace eTour.Controllers
             return await service.UpdateDate(tourdate_id, tourdate);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<TourDate>> DeleteTourDate(int tourdate_id)
         {
             return await service.DeleteDate(tourdate_id);

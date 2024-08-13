@@ -10,7 +10,10 @@ namespace eTour.Model
         public int Iternery_Id {  get; set; }
 
         public String? Description { get; set; }
+
+
         public int Tour_Id { get; set; }
+        [ForeignKey("Tour_Id")]
         public Tours? Tours { get; set; }
 
     }

@@ -28,13 +28,13 @@ namespace eTour.Controllers
             return await service.GetIterneryById(iternery_id);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Iternery>> UpdateIternery(int iternery_id,Iternery iternery)
         {
             return await service.UpdateIternery(iternery_id, iternery);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<Iternery>> DeleteIternery(int iternery_id)
         {
             return await service.DeleteIternery(iternery_id);

@@ -13,8 +13,8 @@ namespace eTour.Model
 
         public int Duration { get; set; }
 
-
-        [ForeignKey("SubCategory")]
+        public int SubCategory_Id {  get; set; }
+        [ForeignKey("SubCategory_Id")]
         public SubCategory? Subcategory { get; set; }
 
         public ICollection<Iternery>? Iterneries { get; set; }
