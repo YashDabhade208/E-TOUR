@@ -7,8 +7,9 @@ namespace eTour.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Category_id { get; set; }
+        public int Category_Id { get; set; }
         public String? Category_Name { get; set; }
 
+        public ICollection<SubCategory>? SubCategories { get; set; }
     }
 }

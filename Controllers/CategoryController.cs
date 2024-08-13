@@ -9,7 +9,7 @@ namespace eTour.Controllers
 
     [Route("api/category")]
     [ApiController]
-    public class CategoryController:ControllerBase
+    public class CategoryController:Controller  
     {
 
         private readonly ICategoryService service;
@@ -29,7 +29,7 @@ namespace eTour.Controllers
 
 
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategoryById(int category_id)
         {
             return await service.GetCategoryById(category_id);
@@ -46,10 +46,10 @@ namespace eTour.Controllers
 
 
 
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int category_id,Category category)
         {
-            if(category_id!=category.Category_id)
+            if(category_id!=category.Category_Id)
             {
                 return BadRequest();
             }

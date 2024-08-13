@@ -17,6 +17,10 @@ namespace eTour.Repository
         }
 
         public DbSet<Category> Categories {  get; set; }
-        
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Tours> Tour { get; set; }
+        public DbSet<Iternery> Iterneries { get; set; } 
+        public DbSet<TourDate> TourDates { get; set; }
+
     }
 }

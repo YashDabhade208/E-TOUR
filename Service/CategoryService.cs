@@ -57,7 +57,7 @@ namespace eTour.Service
 
         public async Task<ActionResult<Category>> UpdateCategory(int category_id, Category category)
         {
-            if(category_id != category.Category_id)
+            if(category_id != category.Category_Id)
             {
                 return null;
             }

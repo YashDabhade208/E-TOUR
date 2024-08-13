@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eTour.Repository;
 
@@ -11,9 +12,11 @@ using eTour.Repository;
 namespace eTour.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240813100722_RemoveExtraForeignKey")]
+    partial class RemoveExtraForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,6 +97,9 @@ namespace eTour.Migrations
                     b.Property<int>("Tour_Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("ToursTour_Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Validfrom")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -104,7 +110,7 @@ namespace eTour.Migrations
 
                     b.HasKey("Tourdate_Id");
 
-                    b.HasIndex("Tour_Id");
+                    b.HasIndex("ToursTour_Id");
 
                     b.ToTable("TourDates");
                 });
@@ -120,7 +126,10 @@ namespace eTour.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubCategory")
+                    b.Property<int>("Subcategory_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Subcategory_Id1")
                         .HasColumnType("int");
 
                     b.Property<string>("Tour_Name")
@@ -128,7 +137,7 @@ namespace eTour.Migrations
 
                     b.HasKey("Tour_Id");
 
-                    b.HasIndex("SubCategory");
+                    b.HasIndex("Subcategory_Id1");
 
                     b.ToTable("Tour");
                 });
@@ -157,7 +166,7 @@ namespace eTour.Migrations
                 {
                     b.HasOne("eTour.Model.Tours", "Tours")
                         .WithMany("Dates")
-                        .HasForeignKey("Tour_Id")
+                        .HasForeignKey("ToursTour_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -168,7 +177,7 @@ namespace eTour.Migrations
                 {
                     b.HasOne("eTour.Model.SubCategory", "Subcategory")
                         .WithMany("Tours")
-                        .HasForeignKey("SubCategory");
+                        .HasForeignKey("Subcategory_Id1");
 
                     b.Navigation("Subcategory");
                 });
