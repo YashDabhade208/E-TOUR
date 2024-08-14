@@ -1,4 +1,3 @@
-
 using eTour.Repository;
 using eTour.Service;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +6,20 @@ namespace eTour
 {
     public class Program
     {
-        public static void Main(string[] args)  
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-           
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:5173")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });
 
             builder.Services.AddControllers();
             builder.Services.AddTransient<ICategoryService, CategoryService>();
@@ -50,7 +58,7 @@ namespace eTour
 
             var app = builder.Build();
 
-            
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -58,6 +66,16 @@ namespace eTour
             }
 
             app.UseHttpsRedirection();
+
+
+
+            app.UseCors("AllowSpecificOrigins");
+
+
+
+
+
+
 
             app.UseAuthorization();
 
