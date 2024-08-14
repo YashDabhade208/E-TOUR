@@ -33,6 +33,12 @@ namespace eTour.Controllers
             return await service.UpdateCost(cost_id,cost);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<Cost>> CreateCost(Cost cost)
+        {
+            return await service.CreateCost(cost);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cost>> DeleteCost(int cost_id)
         {
