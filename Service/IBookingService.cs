@@ -10,5 +10,6 @@ namespace eTour.Service
         Task<ActionResult<Booking>> CreateBooking(Booking booking);
         Task<ActionResult<Booking>> UpdateBooking(int booking_id, Booking booking);
         Task<Booking> DeleteBooking(int booking_id);
+
     }
 }

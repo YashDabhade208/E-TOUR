@@ -14,7 +14,6 @@ namespace eTour.Model
         [ForeignKey("Customer")]
         public int Customer_Id {  get; set; }
         public Customer? Customer {  get; set; }
-
         public ICollection<Passenger>? Passsengers {  get; set; }
     }
 }

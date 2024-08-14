@@ -51,7 +51,7 @@ namespace eTour.Controllers
             }
             try
             {
-                await service.(Customer_id, Customer);
+                await service.UpdateCustomer(Customer_id, Customer);
             }
             catch
             {
@@ -69,4 +69,4 @@ namespace eTour.Controllers
     }
 
 }
-}
+

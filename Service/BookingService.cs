@@ -36,24 +36,24 @@ namespace eTour.Service
             return await context.Bookings.ToListAsync();
         }
 
-        public Task<ActionResult<Booking>?> GetBookingById(int booking_id)
+        public async Task<ActionResult<Booking>?> GetBookingById(int booking_id)
         {
-            var Booking = await context.Bookings.FindAsync(id);
-            if (Booking == null)
+            var booking = await context.Bookings.FindAsync(booking_id);
+            if (booking == null)
             {
                 return null;
             }
-            return Booking;
+            return booking;
         }
 
-        public Task<ActionResult<Booking>> UpdateBooking(int booking_id, Booking booking)
+        public async Task<ActionResult<Booking>> UpdateBooking(int booking_id, Booking booking)
         {
-            if (Booking_id != Booking.Booking_Id)
+            if (booking_id != booking.Booking_Id)
             {
                 return null;
             }
 
-            context.Entry(Booking).State = EntityState.Modified;
+            context.Entry(booking).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +64,7 @@ namespace eTour.Service
                 Console.WriteLine("Not Updated");
             }
 
-            return Booking;
+            return booking;
         }
     }
 }
