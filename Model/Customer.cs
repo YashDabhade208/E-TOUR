@@ -20,7 +20,7 @@ namespace eTour.Model
         public string Customer_Address { get; set; }
         public string Customer_City { get; set; }
         public string Customer_State {  get; set; }
-        public string Customer_Country { get; set;}
+       
         public string Customer_Pincode { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
