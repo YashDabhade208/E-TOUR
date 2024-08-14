@@ -22,6 +22,8 @@ namespace eTour.Repository
         public DbSet<Iternery> Iterneries { get; set; } 
         public DbSet<TourDate> TourDates { get; set; }
         public DbSet<Cost> Costs { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
     }
 }
