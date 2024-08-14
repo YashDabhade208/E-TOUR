@@ -12,7 +12,7 @@ namespace eTour.Model
         public string Total_Cost {  get; set; }
         public string Payment_Status { get; set; }
 
-        [ForeignKey("Booking_Id")]
+        [ForeignKey("Booking")]
         public int Booking_Id {  get; set; }
         public Booking? Booking {  get; set; }
 

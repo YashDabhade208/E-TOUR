@@ -12,8 +12,8 @@ using eTour.Repository;
 namespace eTour.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    [Migration("20240813185146_v")]
-    partial class v
+    [Migration("20240814074454_eTour")]
+    partial class eTour
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace eTour.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("eTour.Model.Booking", b =>
+                {
+                    b.Property<int>("Booking_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Booking_Id"));
+
+                    b.Property<string>("Booking_Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Customer_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Booking_Id");
+
+                    b.HasIndex("Customer_Id");
+
+                    b.ToTable("Bookings");
+                });
 
             modelBuilder.Entity("eTour.Model.Category", b =>
                 {
@@ -68,6 +90,70 @@ namespace eTour.Migrations
                     b.ToTable("Costs");
                 });
 
+            modelBuilder.Entity("eTour.Model.Customer", b =>
+                {
+                    b.Property<int>("Customer_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Customer_Id"));
+
+                    b.Property<string>("Customer_Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_Dateofbirth")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_EmailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_MobNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_Pincode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Customer_State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Customer_age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Customer_gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Customer_Id");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("eTour.Model.Iternery", b =>
                 {
                     b.Property<int>("Iternery_Id")
@@ -87,6 +173,77 @@ namespace eTour.Migrations
                     b.HasIndex("Tour_Id");
 
                     b.ToTable("Iterneries");
+                });
+
+            modelBuilder.Entity("eTour.Model.Passenger", b =>
+                {
+                    b.Property<int>("Passenger_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Passenger_Id"));
+
+                    b.Property<int>("Booking_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Booking_Id1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Customer_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Passenger_EmailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Passenger_Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Passenger_MobNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Passenger_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Passenger_Id");
+
+                    b.HasIndex("Booking_Id1");
+
+                    b.HasIndex("Customer_Id");
+
+                    b.ToTable("Passengers");
+                });
+
+            modelBuilder.Entity("eTour.Model.Payment", b =>
+                {
+                    b.Property<int>("Payment_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Payment_Id"));
+
+                    b.Property<int>("Booking_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Booking_Id1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Payment_Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Total_Cost")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Payment_Id");
+
+                    b.HasIndex("Booking_Id1");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("eTour.Model.SubCategory", b =>
@@ -147,7 +304,7 @@ namespace eTour.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubCategory")
+                    b.Property<int>("SubCategory_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Tour_Name")
@@ -155,9 +312,20 @@ namespace eTour.Migrations
 
                     b.HasKey("Tour_Id");
 
-                    b.HasIndex("SubCategory");
+                    b.HasIndex("SubCategory_Id");
 
                     b.ToTable("Tour");
+                });
+
+            modelBuilder.Entity("eTour.Model.Booking", b =>
+                {
+                    b.HasOne("eTour.Model.Customer", "Customer")
+                        .WithMany("Bookings")
+                        .HasForeignKey("Customer_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("eTour.Model.Cost", b =>
@@ -180,6 +348,28 @@ namespace eTour.Migrations
                         .IsRequired();
 
                     b.Navigation("Tours");
+                });
+
+            modelBuilder.Entity("eTour.Model.Passenger", b =>
+                {
+                    b.HasOne("eTour.Model.Booking", "Booking")
+                        .WithMany("Passsengers")
+                        .HasForeignKey("Booking_Id1");
+
+                    b.HasOne("eTour.Model.Customer", null)
+                        .WithMany("Passengers")
+                        .HasForeignKey("Customer_Id");
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("eTour.Model.Payment", b =>
+                {
+                    b.HasOne("eTour.Model.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("Booking_Id1");
+
+                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("eTour.Model.SubCategory", b =>
@@ -208,14 +398,28 @@ namespace eTour.Migrations
                 {
                     b.HasOne("eTour.Model.SubCategory", "Subcategory")
                         .WithMany("Tours")
-                        .HasForeignKey("SubCategory");
+                        .HasForeignKey("SubCategory_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Subcategory");
+                });
+
+            modelBuilder.Entity("eTour.Model.Booking", b =>
+                {
+                    b.Navigation("Passsengers");
                 });
 
             modelBuilder.Entity("eTour.Model.Category", b =>
                 {
                     b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("eTour.Model.Customer", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Passengers");
                 });
 
             modelBuilder.Entity("eTour.Model.SubCategory", b =>

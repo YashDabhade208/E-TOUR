@@ -15,7 +15,7 @@ namespace eTour.Model
         public string Passenger_EmailId { get; set; }
         public string Passenger_Gender {  get; set; }
 
-        [ForeignKey("Booking_Id")]
+        [ForeignKey("Booking")]
         public int Booking_Id { get; set; }
         public Booking? Booking { get; set; }
     }
