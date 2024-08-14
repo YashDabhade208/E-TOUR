@@ -23,6 +23,7 @@ namespace eTour
             builder.Services.AddTransient<ICustomerService, CustomerService>();
             builder.Services.AddTransient<IBookingService, BookingService>();
             builder.Services.AddTransient<IPassengerService, PassengerService>();
+            builder.Services.AddTransient<IPaymentService, PaymentService>();
 
             builder.Services.AddDbContext<Appdbcontext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("eTourDBConnection")), ServiceLifetime.Transient);
 

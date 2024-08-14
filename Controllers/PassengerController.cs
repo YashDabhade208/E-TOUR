@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eTour.Controllers
 {
+    [Route("api/passenger")]
+    [ApiController]
     public class PassengerController : Controller
     {
         private readonly IPassengerService service;

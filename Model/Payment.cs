@@ -5,6 +5,7 @@ namespace eTour.Model
 {
     public class Payment
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Payment_Id { get; set; }
