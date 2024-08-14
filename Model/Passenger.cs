@@ -7,6 +7,7 @@ namespace eTour.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Passenger_Id { get; set; }
 
         public string Passenger_Name { get; set; }

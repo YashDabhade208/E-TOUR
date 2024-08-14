@@ -24,6 +24,7 @@ namespace eTour.Repository
         public DbSet<Cost> Costs { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Passenger> Passengers { get; set; }
 
     }
 }
