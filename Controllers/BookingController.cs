@@ -1,6 +1,7 @@
 ﻿using eTour.Model;
 using eTour.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eTour.Controllers
 {
@@ -35,12 +36,20 @@ namespace eTour.Controllers
 
 
 
-
         [HttpPost]
-        public async Task<ActionResult<Booking>> CreateBooking(Booking Booking)
+        public async Task<IActionResult> CreateBooking(BookingRequest request)
         {
-            return await service.CreateBooking(Booking);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var booking = await service.CreateBooking(request);
+
+            return CreatedAtAction(nameof(GetBookingById), new { id = booking.Value.Booking_Id }, booking);
+
         }
+
 
 
 
@@ -69,5 +78,31 @@ namespace eTour.Controllers
             return await service.DeleteBooking(Booking_id);
         }
     }
+
+
+
+
+    public class BookingRequest
+    {
+        public DateTime Booking_Date { get; set; }
+        public int Customer_Id { get; set; }
+        public int NoofChildWithBed { get; set; }
+
+        public int NoofChildWithoutBed { get; set; }
+
+        public int TotalPassengers { get; set; }
+        public List<PassengerRequest> Passsengers { get; set; }
+    }
+
+    public class PassengerRequest
+    {
+        public string Passenger_Name { get; set; }
+        public int Passenger_Age { get; set; }
+        public string Passenger_MobNo { get; set; }
+        public string Passenger_EmailId { get; set; }
+        public string Passenger_Gender { get; set; }
+        public string Passenger_Bed { get; set; }
+    }
+
 }
 

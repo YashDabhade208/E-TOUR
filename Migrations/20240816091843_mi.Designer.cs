@@ -12,8 +12,8 @@ using eTour.Repository;
 namespace eTour.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    [Migration("20240814074454_eTour")]
-    partial class eTour
+    [Migration("20240816091843_mi")]
+    partial class mi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,19 @@ namespace eTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Booking_Id"));
 
-                    b.Property<string>("Booking_Date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Booking_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Customer_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoofChildWithBed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoofChildWithoutBed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPassengers")
                         .HasColumnType("int");
 
                     b.HasKey("Booking_Id");
@@ -103,10 +111,6 @@ namespace eTour.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Customer_City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Customer_Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -186,11 +190,15 @@ namespace eTour.Migrations
                     b.Property<int>("Booking_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Booking_Id1")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Customer_Id")
                         .HasColumnType("int");
+
+                    b.Property<int>("Passenger_Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Passenger_Bed")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Passenger_EmailId")
                         .IsRequired()
@@ -210,7 +218,7 @@ namespace eTour.Migrations
 
                     b.HasKey("Passenger_Id");
 
-                    b.HasIndex("Booking_Id1");
+                    b.HasIndex("Booking_Id");
 
                     b.HasIndex("Customer_Id");
 
@@ -228,9 +236,6 @@ namespace eTour.Migrations
                     b.Property<int>("Booking_Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Booking_Id1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Payment_Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -241,7 +246,7 @@ namespace eTour.Migrations
 
                     b.HasKey("Payment_Id");
 
-                    b.HasIndex("Booking_Id1");
+                    b.HasIndex("Booking_Id");
 
                     b.ToTable("Payments");
                 });
@@ -354,7 +359,9 @@ namespace eTour.Migrations
                 {
                     b.HasOne("eTour.Model.Booking", "Booking")
                         .WithMany("Passsengers")
-                        .HasForeignKey("Booking_Id1");
+                        .HasForeignKey("Booking_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eTour.Model.Customer", null)
                         .WithMany("Passengers")
@@ -367,7 +374,9 @@ namespace eTour.Migrations
                 {
                     b.HasOne("eTour.Model.Booking", "Booking")
                         .WithMany()
-                        .HasForeignKey("Booking_Id1");
+                        .HasForeignKey("Booking_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Booking");
                 });

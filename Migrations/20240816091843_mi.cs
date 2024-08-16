@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace eTour.Migrations
 {
     /// <inheritdoc />
-    public partial class eTour : Migration
+    public partial class mi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +41,6 @@ namespace eTour.Migrations
                     Customer_Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Customer_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Customer_State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Customer_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Customer_Pincode = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -74,7 +74,10 @@ namespace eTour.Migrations
                 {
                     Booking_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Booking_Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Booking_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NoofChildWithBed = table.Column<int>(type: "int", nullable: false),
+                    NoofChildWithoutBed = table.Column<int>(type: "int", nullable: false),
+                    TotalPassengers = table.Column<int>(type: "int", nullable: false),
                     Customer_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -116,21 +119,23 @@ namespace eTour.Migrations
                     Passenger_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Passenger_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passenger_Age = table.Column<int>(type: "int", nullable: false),
                     Passenger_MobNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Passenger_EmailId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Passenger_Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passenger_Bed = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Booking_Id = table.Column<int>(type: "int", nullable: false),
-                    Booking_Id1 = table.Column<int>(type: "int", nullable: true),
                     Customer_Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Passengers", x => x.Passenger_Id);
                     table.ForeignKey(
-                        name: "FK_Passengers_Bookings_Booking_Id1",
-                        column: x => x.Booking_Id1,
+                        name: "FK_Passengers_Bookings_Booking_Id",
+                        column: x => x.Booking_Id,
                         principalTable: "Bookings",
-                        principalColumn: "Booking_Id");
+                        principalColumn: "Booking_Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Passengers_Customers_Customer_Id",
                         column: x => x.Customer_Id,
@@ -146,17 +151,17 @@ namespace eTour.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Total_Cost = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Payment_Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Booking_Id = table.Column<int>(type: "int", nullable: false),
-                    Booking_Id1 = table.Column<int>(type: "int", nullable: true)
+                    Booking_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Payments", x => x.Payment_Id);
                     table.ForeignKey(
-                        name: "FK_Payments_Bookings_Booking_Id1",
-                        column: x => x.Booking_Id1,
+                        name: "FK_Payments_Bookings_Booking_Id",
+                        column: x => x.Booking_Id,
                         principalTable: "Bookings",
-                        principalColumn: "Booking_Id");
+                        principalColumn: "Booking_Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,9 +243,9 @@ namespace eTour.Migrations
                 column: "Tour_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Passengers_Booking_Id1",
+                name: "IX_Passengers_Booking_Id",
                 table: "Passengers",
-                column: "Booking_Id1");
+                column: "Booking_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Passengers_Customer_Id",
@@ -248,9 +253,9 @@ namespace eTour.Migrations
                 column: "Customer_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_Booking_Id1",
+                name: "IX_Payments_Booking_Id",
                 table: "Payments",
-                column: "Booking_Id1");
+                column: "Booking_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_Category_Id",

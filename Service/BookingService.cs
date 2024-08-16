@@ -1,4 +1,6 @@
-﻿using eTour.Model;
+﻿using Azure.Core;
+using eTour.Controllers;
+using eTour.Model;
 using eTour.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,31 @@ namespace eTour.Service
         {
             this.context = context;
         }
-        public async Task<ActionResult<Booking>> CreateBooking(Booking booking)
+
+       
+        public async  Task<ActionResult<Booking>> CreateBooking(BookingRequest request)
         {
+            var booking = new Booking
+            {
+                Booking_Date = request.Booking_Date,
+                NoofChildWithBed = request.NoofChildWithBed,
+                NoofChildWithoutBed = request.NoofChildWithoutBed,
+                TotalPassengers = request.TotalPassengers,
+                Customer_Id = request.Customer_Id,
+                Passsengers = request.Passsengers.Select(p => new Passenger
+                {
+                    Passenger_Name = p.Passenger_Name,
+                    Passenger_Age = p.Passenger_Age,
+                    Passenger_MobNo = p.Passenger_MobNo,
+                    Passenger_EmailId = p.Passenger_EmailId,
+                    Passenger_Gender = p.Passenger_Gender,
+                    Passenger_Bed = p.Passenger_Bed
+                }).ToList()
+            };
+
             context.Bookings.Add(booking);
             await context.SaveChangesAsync();
+
             return booking;
         }
 
@@ -36,7 +59,7 @@ namespace eTour.Service
             return await context.Bookings.ToListAsync();
         }
 
-        public async Task<ActionResult<Booking>?> GetBookingById(int booking_id)
+        public async  Task<ActionResult<Booking>?> GetBookingById(int booking_id)
         {
             var booking = await context.Bookings.FindAsync(booking_id);
             if (booking == null)
@@ -46,8 +69,9 @@ namespace eTour.Service
             return booking;
         }
 
-        public async Task<ActionResult<Booking>> UpdateBooking(int booking_id, Booking booking)
+        public async  Task<ActionResult<Booking>> UpdateBooking(int booking_id, Booking booking)
         {
+
             if (booking_id != booking.Booking_Id)
             {
                 return null;
@@ -67,4 +91,9 @@ namespace eTour.Service
             return booking;
         }
     }
-}
+
+       
+
+      
+    }
+

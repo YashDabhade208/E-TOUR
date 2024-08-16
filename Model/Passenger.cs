@@ -11,9 +11,12 @@ namespace eTour.Model
         public int Passenger_Id { get; set; }
 
         public string Passenger_Name { get; set; }
+
+        public int Passenger_Age { get; set;  }
         public string Passenger_MobNo { get; set; }
         public string Passenger_EmailId { get; set; }
         public string Passenger_Gender {  get; set; }
+        public string Passenger_Bed { get; set; }
 
         [ForeignKey("Booking")]
         public int Booking_Id { get; set; }

@@ -30,11 +30,19 @@ namespace eTour.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Booking_Id"));
 
-                    b.Property<string>("Booking_Date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Booking_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Customer_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoofChildWithBed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoofChildWithoutBed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPassengers")
                         .HasColumnType("int");
 
                     b.HasKey("Booking_Id");
@@ -181,6 +189,13 @@ namespace eTour.Migrations
 
                     b.Property<int?>("Customer_Id")
                         .HasColumnType("int");
+
+                    b.Property<int>("Passenger_Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Passenger_Bed")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Passenger_EmailId")
                         .IsRequired()

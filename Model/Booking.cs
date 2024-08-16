@@ -9,7 +9,13 @@ namespace eTour.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Booking_Id { get; set; }
 
-        public string Booking_Date {  get; set; }
+        public DateTime Booking_Date {  get; set; }
+
+        public int NoofChildWithBed { get; set; }
+
+        public int NoofChildWithoutBed { get; set; }
+
+        public int TotalPassengers { get; set; }
 
         [ForeignKey("Customer")]
         public int Customer_Id {  get; set; }
