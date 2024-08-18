@@ -31,7 +31,7 @@ namespace eTour.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer >> GetCustomerById(int Customer_id)
+        public async Task<ActionResult<Customer>> GetCustomerById(int Customer_id)
         {
             return await service.GetCustomerById(Customer_id);
         }
@@ -73,63 +73,79 @@ namespace eTour.Controllers
         }
 
 
+        /* [HttpPost("login")]
+         public async Task<IActionResult> Login([FromBody] LoginModel model)
+         {
+             if (!ModelState.IsValid)
+                 return BadRequest("Invalid request.");
+
+             // Replace this with your Customer validation logic
+             var Customer = ValidateCustomer(model.Email, model.Password);
+             if (Customer == null)
+                 return Unauthorized("Invalid email or password.");
+
+             var token = GenerateJwtToken(Customer);
+             return Ok(new { Token = token });
+         }
+
+         private Customer ValidateCustomer(string email, string password)
+         {
+             // TODO: Implement your Customer validation logic
+             // This is just a placeholder for demonstration purposes
+             if (email == "test@example.com" && password == "password")
+             {
+                 return new Customer { Customer_EmailId = email };
+             }
+             return null;
+         }
+
+         private string GenerateJwtToken(Customer customer)
+         {
+             var jwtSettings = configuration.GetSection("Jwt");
+             var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+             var tokenHandler = new JwtSecurityTokenHandler();
+             var tokenDescriptor = new SecurityTokenDescriptor
+             {
+                 Subject = new ClaimsIdentity(new Claim[]
+                 {
+                     new Claim(ClaimTypes.Email, customer.Customer_EmailId)
+                 }),
+                 Expires = DateTime.UtcNow.AddHours(1),
+                 Issuer = jwtSettings["Issuer"],
+                 Audience = jwtSettings["Audience"],
+                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+             };
+
+             var token = tokenHandler.CreateToken(tokenDescriptor);
+             return tokenHandler.WriteToken(token);
+         }
+     }*/
+
+
+
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public IActionResult Login([FromBody] LoginModel login)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Invalid request.");
-
-            // Replace this with your Customer validation logic
-            var Customer = ValidateCustomer(model.Email, model.Password);
-            if (Customer == null)
-                return Unauthorized("Invalid email or password.");
-
-            var token = GenerateJwtToken(Customer);
-            return Ok(new { Token = token });
-        }
-
-        private Customer ValidateCustomer(string email, string password)
-        {
-            // TODO: Implement your Customer validation logic
-            // This is just a placeholder for demonstration purposes
-            if (email == "test@example.com" && password == "password")
+            if (service.ValidateCustomer(login.Email, login.Password))
             {
-                return new Customer { Customer_EmailId = email };
+                return Ok(new { Message = "Login successful" });
             }
-            return null;
-        }
-
-        private string GenerateJwtToken(Customer customer)
-        {
-            var jwtSettings = configuration.GetSection("Jwt");
-            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenDescriptor = new SecurityTokenDescriptor
+            else
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, customer.Customer_EmailId)
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
-                Issuer = jwtSettings["Issuer"],
-                Audience = jwtSettings["Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                return Unauthorized(new { Message = "Invalid email or password" });
+            }
         }
-    }
 
-    public class LoginModel
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+        public class LoginModel
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
 
-    public class User
-    {
-        public string Email { get; set; }
+        public class User
+        {
+            public string Email { get; set; }
+        }
     }
 }
 

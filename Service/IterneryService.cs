@@ -44,16 +44,20 @@ namespace eTour.Service
 
         public async  Task<ActionResult<Iternery>?> GetIterneryById(int iternery_id)
         {
-            if (contex.Iterneries == null)
-            {
-                return null;
-            }
+           
             var iternery = await contex.Iterneries.FindAsync(iternery_id);
             if (iternery == null)
             {
                 return null;
             }
             return iternery;
+        }
+
+        public async Task<List<Iternery>> GetIterneryByTourId(int Tour_Id)
+        {
+            return await contex.Iterneries
+                                 .Where(i => i.Tour_Id == Tour_Id)
+                                 .ToListAsync();
         }
 
         public async Task<ActionResult<Iternery>> UpdateIternery(int iternery_id,Iternery iternery)

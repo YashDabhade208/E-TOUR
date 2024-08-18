@@ -10,6 +10,6 @@ namespace eTour.Service
         Task<ActionResult<Customer>> CreateCustomer(Customer customer);
         Task<ActionResult<Customer>> UpdateCustomer(int customer_id, Customer customer);
         Task<Customer> DeleteCustomer(int customer_id);
-
+        bool ValidateCustomer(string email, string password);
     }
 }

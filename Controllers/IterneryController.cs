@@ -45,5 +45,20 @@ namespace eTour.Controllers
         {
             return await service.CreateIternery(iternery);
         }
+
+
+
+        [HttpGet("byTour/{tourId}")]
+        public async Task<ActionResult<IEnumerable<Iternery>>> GetIterneryByTourId(int Tour_Id)
+        {
+            var iternerys = await service.GetIterneryByTourId(Tour_Id);
+
+            if (iternerys == null || !iternerys.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(iternerys);
+        }
     }
 }

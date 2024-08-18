@@ -12,8 +12,8 @@ using eTour.Repository;
 namespace eTour.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    [Migration("20240816091843_mi")]
-    partial class mi
+    [Migration("20240817194516_m")]
+    partial class m
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -10,5 +10,6 @@ namespace eTour.Service
         Task <ActionResult<Iternery>>CreateIternery(Iternery iternery);
         Task<ActionResult<Iternery>> UpdateIternery(int iternery_id,Iternery iternery);
         Task <Iternery> DeleteIternery(int iternery_id);
+        Task<List<Iternery>> GetIterneryByTourId(int Tour_Id);
     }
 }

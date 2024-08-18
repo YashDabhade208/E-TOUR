@@ -65,5 +65,15 @@ namespace eTour.Service
 
             return customer;
         }
+
+        public bool ValidateCustomer(string email, string password)
+        {
+            var customer = context.Customers
+                               .FirstOrDefault(c => c.Customer_EmailId == email);
+
+            
+            return customer != null && customer.Customer_Password == password;
+
+        }
     }
 }
