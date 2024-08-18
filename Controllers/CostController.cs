@@ -22,9 +22,9 @@ namespace eTour.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cost>> GetCostById(int cost_id)
+        public async Task<ActionResult<Cost>> GetCostByTourId(int cost_id)
         {
-            return await service.GetCostById(cost_id);
+            return await service.GetCostByTourId(cost_id);
         }
 
         [HttpPut("{id}")]
