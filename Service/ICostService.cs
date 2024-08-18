@@ -11,5 +11,7 @@ namespace eTour.Service
         Task<ActionResult<Cost>> UpdateCost(int cost_id, Cost cost);
         Task<ActionResult<Cost>> DeleteCost(int cost_id);
 
+        Task<Cost> GetCostByTourId(int Tour_Id);
+
     }
 }

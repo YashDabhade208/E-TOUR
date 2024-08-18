@@ -55,6 +55,13 @@ namespace eTour.Service
             return tourdate;
         }
 
+        public async Task<IEnumerable<TourDate>> GetTourDatesByTourId(int Tour_Id)
+        {
+            return await contex.TourDates
+                .Where(td => td.Tour_Id == Tour_Id)
+                .ToListAsync();
+        }
+
         public async Task<ActionResult<TourDate>> UpdateDate(int tourdate_id, TourDate tourdate)
         {
             if (tourdate_id != tourdate.Tourdate_Id)

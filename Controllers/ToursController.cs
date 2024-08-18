@@ -8,12 +8,27 @@ namespace eTour.Controllers
     [ApiController]
     public class ToursController : Controller
     {
-        private readonly IToursService service;
 
-        public ToursController(IToursService service)
+        private readonly IToursService service;
+        private readonly ICostService _costService;
+        private readonly ITourDateService _tourDateService;
+        private readonly IIterneryService _iterneryService;
+        private readonly ITourDetailsService _tourDetailsService;
+
+        public ToursController(
+            IToursService tourService,
+            ICostService costService,
+            ITourDateService tourDateService,
+            IIterneryService iterneryService,
+            ITourDetailsService tourDetailsService)
         {
-            this.service = service;
+            service = tourService;
+            _costService = costService;
+            _tourDateService = tourDateService;
+            _iterneryService = iterneryService;
+            _tourDetailsService = tourDetailsService;
         }
+
 
 
         [HttpGet]
@@ -60,5 +75,35 @@ namespace eTour.Controllers
         {
             return await service.DeleteTours(tour_id);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet("details/{id}")]
+        public async Task<ActionResult<TourDetails>> GetTourDetails(int id)
+        {
+            var tourDetails = await _tourDetailsService.GetTourDetails(id);
+
+            if (tourDetails == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tourDetails);
+        }
+
     }
+
 }
+

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eTour.Model
 {
@@ -13,12 +14,13 @@ namespace eTour.Model
 
         public int Duration { get; set; }
 
-        public int SubCategory_Id {  get; set; }
+        public int SubCategory_Id { get; set; }
         [ForeignKey("SubCategory_Id")]
         public SubCategory? Subcategory { get; set; }
 
         public ICollection<Iternery>? Iterneries { get; set; }
         public ICollection<TourDate>? Dates { get; set; }
-        
+
+
     }
 }

@@ -61,5 +61,11 @@ namespace eTour.Service
 
             return cost;
         }
+
+        public async Task<Cost> GetCostByTourId(int Tour_Id)
+        {
+            return await contex.Costs
+                 .FirstOrDefaultAsync(c => c.Tour_Id == Tour_Id);
+        }
     }
 }

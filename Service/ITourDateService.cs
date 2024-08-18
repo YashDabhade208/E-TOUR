@@ -10,5 +10,7 @@ namespace eTour.Service
         Task <ActionResult<TourDate>> CreateTourDate(TourDate tourdate);
         Task<ActionResult<TourDate>> UpdateDate(int tourdate_id, TourDate tourdate);
         Task<ActionResult<TourDate>> DeleteDate(int tourdate_id);
+
+        Task<IEnumerable<TourDate>> GetTourDatesByTourId(int Tour_Id);
     }
 }
