@@ -38,6 +38,7 @@ namespace eTour.Controllers
         }
 
 
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Tours>> GetToursById(int tour_id)
         {
@@ -82,7 +83,18 @@ namespace eTour.Controllers
 
 
 
+        [HttpGet("toursBySubcategory/{subcategory_id}")]
+        public async Task<ActionResult<IEnumerable<Tours>>> GetToursBySubcategory(int subcategory_id)
+        {
+            var result = await service.GetToursBySubId(subcategory_id);
 
+            if (result == null || !result.Any())
+            {
+                return NotFound(new { message = $"No tours found for subcategory ID {subcategory_id}" });
+            }
+
+            return Ok(result);
+        }
 
 
 

@@ -11,5 +11,7 @@ namespace eTour.Service
         Task<ActionResult<Tours>> CreateTours(Tours tour);
         Task<ActionResult<Tours>> UpdateTours(int tour_id,Tours tour);
         Task<Tours>DeleteTours(int tour_id);
+
+        Task<List<Tours>> GetToursBySubId(int subcategory_id);
     }
 }

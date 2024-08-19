@@ -61,5 +61,8 @@ namespace eTour.Controllers
         {
             return await service.DeleteSubCategory(subcategory_id);
         }
+
+
+      
     }
 }

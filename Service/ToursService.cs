@@ -2,6 +2,7 @@
 using eTour.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace eTour.Service
 {
@@ -43,6 +44,15 @@ namespace eTour.Service
             {
                 return null;
             }
+            return tours;
+        }
+
+        public async Task<List<Tours>> GetToursBySubId(int subcategory_id)
+        {
+            var tours = await context.Tour
+        .Where(t => t.SubCategory_Id == subcategory_id)
+        .ToListAsync();
+
             return tours;
         }
 
