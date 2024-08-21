@@ -36,7 +36,7 @@ namespace eTour
 
 
 
-            // Add CORS policy
+           
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigins",
@@ -48,11 +48,10 @@ namespace eTour
                     });
             });
 
-            // Add controllers
+      
             builder.Services.AddControllers();
 
-           /* // JWT Authentication setup
-            var jwtSettings = builder.Configuration.GetSection("Jwt");
+            /*var jwtSettings = builder.Configuration.GetSection("Jwt");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
 
             object value = builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -71,7 +70,7 @@ namespace eTour
                     };
                 });*/
 
-            // Add your custom services
+        
             builder.Services.AddTransient<ICategoryService, CategoryService>();
             builder.Services.AddTransient<ISubCategoryService, SubCategoryService>();
             builder.Services.AddTransient<IToursService, ToursService>();

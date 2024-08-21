@@ -7,7 +7,7 @@ namespace eTour.Model
     public class Tours
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+       // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Tour_Id { get; set; }
 
         public String? Tour_Name { get; set; }
