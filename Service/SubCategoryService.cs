@@ -9,6 +9,20 @@ namespace eTour.Service
     {
         private readonly Appdbcontext context;
 
+
+        private readonly HttpClient _httpClient;
+        private readonly string _javaServiceUrl = "http://java-service-url/api/subcategory";
+
+        public SubCategoryService(Appdbcontext context, HttpClient httpClient)
+        {
+            context = context;
+            _httpClient = httpClient;
+        }
+
+
+
+
+
         public SubCategoryService(Appdbcontext context)
         {
             this.context = context;

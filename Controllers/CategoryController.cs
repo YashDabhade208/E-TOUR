@@ -1,5 +1,6 @@
 ﻿using eTour.Model;
 using eTour.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
@@ -21,6 +22,7 @@ namespace eTour.Controllers
             this.service = service;
         }
 
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>?>>GetAllCategory()
         {

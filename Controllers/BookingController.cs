@@ -1,5 +1,6 @@
 ﻿using eTour.Model;
 using eTour.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace eTour.Controllers
 {
     [Route("api/booking")]
     [ApiController]
+    [Authorize]
     public class BookingController : Controller
     {
        
@@ -35,20 +37,26 @@ namespace eTour.Controllers
         }
 
 
-
         [HttpPost]
         public async Task<IActionResult> CreateBooking(BookingRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { message = "Invalid data", errors = ModelState });
             }
 
-            var booking = await service.CreateBooking(request);
-
-            return CreatedAtAction(nameof(GetBookingById), new { id = booking.Value.Booking_Id }, booking);
-
+            try
+            {
+                var booking = await service.CreateBooking(request);
+                return CreatedAtAction(nameof(GetBookingById), new { id = booking.Value.Booking_Id }, booking);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, new { message = "An error occurred while creating the booking.", error = ex.Message });
+            }
         }
+
 
 
 

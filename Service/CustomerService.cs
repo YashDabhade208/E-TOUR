@@ -75,5 +75,6 @@ namespace eTour.Service
             return customer != null && customer.Customer_Password == password;
 
         }
+       
     }
 }

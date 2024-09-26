@@ -2,6 +2,7 @@
 using eTour.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,16 +11,15 @@ namespace eTour.Controllers
 {
     [Route("api/customer")]
     [ApiController]
-    public class CustomerController : Controller
+    public class CustomerController : ControllerBase
     {
         private readonly ICustomerService service;
         private readonly IConfiguration configuration;
 
-
-
-        public CustomerController(ICustomerService service)
+        public CustomerController(ICustomerService service, IConfiguration configuration)
         {
             this.service = service;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -28,107 +28,121 @@ namespace eTour.Controllers
             return await service.GetAllCustomer();
         }
 
-
-
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomerById(int Customer_id)
+        public async Task<ActionResult<Customer>> GetCustomerById(int id)
         {
-            return await service.GetCustomerById(Customer_id);
+            var customer = await service.GetCustomerById(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return Ok(customer);
         }
 
-
-
-
+        /* [HttpPost]
+         public async Task<ActionResult<Customer>> CreateCustomer(Customer customer)
+         {
+             var createdCustomer = await service.CreateCustomer(customer);
+             return CreatedAtAction(nameof(GetCustomerById), new { id = createdCustomer.Value.Customer_Id }, createdCustomer);
+         }*/
         [HttpPost]
-        public async Task<ActionResult<Customer>> CreateCustomer(Customer Customer)
+        public async Task<ActionResult<Customer>> CreateCustomer(Customer customer)
         {
-            return await service.CreateCustomer(Customer);
-        }
+            try
+            {
+                throw new Exception("Simulated failure in .NET service");
+                var createdCustomer = await service.CreateCustomer(customer);
+                return CreatedAtAction(nameof(GetCustomerById), new { id = createdCustomer.Value.Customer_Id }, createdCustomer);
+            }
+            catch (Exception ex)
+            {
+            
+                Console.WriteLine("Error in .NET service: " + ex.Message);
 
+                try
+                {
+                    using (var httpClient = new HttpClient())
+                    {
+                        var response = await httpClient.PostAsJsonAsync("http://localhost:8080/api/customer", customer);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var jsonResponse = await response.Content.ReadAsStringAsync();
+                            var createdCustomerFromSpringBoot = JsonConvert.DeserializeObject<Customer>(jsonResponse);
+                            return CreatedAtAction(nameof(GetCustomerById), new { id = createdCustomerFromSpringBoot.Customer_Id }, createdCustomerFromSpringBoot);
+                        }
+                        else
+                        {
+                            return StatusCode((int)response.StatusCode, "Failed to create customer in Spring Boot service");
+                        }
+                    }
+                }
+                catch (Exception springBootEx)
+                {
+                    Console.WriteLine("Error in Spring Boot service: " + springBootEx.Message);
+                    return StatusCode(500, "Both .NET and Spring Boot services failed");
+                }
+            }
+        }
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Customer>> UpdateCustomer(int Customer_id, Customer Customer)
+        public async Task<ActionResult> UpdateCustomer(int id, Customer customer)   
         {
-            if (Customer_id != Customer.Customer_Id)
+            if (id != customer.Customer_Id)
             {
                 return BadRequest();
             }
+
             try
             {
-                await service.UpdateCustomer(Customer_id, Customer);
+                await service.UpdateCustomer(id, customer);
             }
             catch
             {
-                Console.WriteLine("NOT UPDATED");
+                return StatusCode(500, "Internal server error");
             }
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> DeleteCustomer(int Customer_id)
+        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
-            return await service.DeleteCustomer(Customer_id);
+            var customer = await service.DeleteCustomer(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(customer);
         }
-
-
-        /* [HttpPost("login")]
-         public async Task<IActionResult> Login([FromBody] LoginModel model)
-         {
-             if (!ModelState.IsValid)
-                 return BadRequest("Invalid request.");
-
-             // Replace this with your Customer validation logic
-             var Customer = ValidateCustomer(model.Email, model.Password);
-             if (Customer == null)
-                 return Unauthorized("Invalid email or password.");
-
-             var token = GenerateJwtToken(Customer);
-             return Ok(new { Token = token });
-         }
-
-         private Customer ValidateCustomer(string email, string password)
-         {
-             // TODO: Implement your Customer validation logic
-             // This is just a placeholder for demonstration purposes
-             if (email == "test@example.com" && password == "password")
-             {
-                 return new Customer { Customer_EmailId = email };
-             }
-             return null;
-         }
-
-         private string GenerateJwtToken(Customer customer)
-         {
-             var jwtSettings = configuration.GetSection("Jwt");
-             var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
-             var tokenHandler = new JwtSecurityTokenHandler();
-             var tokenDescriptor = new SecurityTokenDescriptor
-             {
-                 Subject = new ClaimsIdentity(new Claim[]
-                 {
-                     new Claim(ClaimTypes.Email, customer.Customer_EmailId)
-                 }),
-                 Expires = DateTime.UtcNow.AddHours(1),
-                 Issuer = jwtSettings["Issuer"],
-                 Audience = jwtSettings["Audience"],
-                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-             };
-
-             var token = tokenHandler.CreateToken(tokenDescriptor);
-             return tokenHandler.WriteToken(token);
-         }
-     }*/
-
-
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel login)
         {
             if (service.ValidateCustomer(login.Email, login.Password))
             {
-                return Ok(new { Message = "Login successful" });
+                var user = new User { Email = login.Email };
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("Email", user.Email)
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+                var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                    configuration["Jwt:Issuer"],
+                    configuration["Jwt:Audience"],
+                    claims,
+                    expires: DateTime.UtcNow.AddMinutes(40  ),
+                    signingCredentials: signIn
+                );
+
+                var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+                return Ok(new { Token = tokenValue, User = user });
             }
             else
             {
@@ -148,6 +162,3 @@ namespace eTour.Controllers
         }
     }
 }
-
-
-

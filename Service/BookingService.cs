@@ -2,6 +2,7 @@
 using eTour.Controllers;
 using eTour.Model;
 using eTour.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace eTour.Service
             this.context = context;
         }
 
-       
+        [Authorize]
         public async  Task<ActionResult<Booking>> CreateBooking(BookingRequest request)
         {
             var booking = new Booking

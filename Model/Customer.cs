@@ -12,6 +12,7 @@ namespace eTour.Model
         public string Customer_FirstName {  get; set; }
         public string Customer_LastName { get; set; }
         public string Customer_MobNo {  get; set; }
+
         public string Customer_EmailId { get; set; }
         public string Customer_Password { get; set; }
         public int Customer_age { get; set; }
